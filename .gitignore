@@ -4,3 +4,4 @@ __pycache__
 .idea
 breardon6-analysis.*
 !breardon6-analysis.tex
+!breardon6-analysis.pdf
