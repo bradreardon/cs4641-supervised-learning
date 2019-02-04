@@ -1,0 +1,6 @@
+__pycache__
+.DS_Store
+~*
+.idea
+breardon6-analysis.*
+!breardon6-analysis.tex
