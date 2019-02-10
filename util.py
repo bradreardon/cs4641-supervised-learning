@@ -1,5 +1,6 @@
 import pickle
 import subprocess
+import time
 
 from sklearn import tree
 
@@ -16,5 +17,15 @@ def export_decision_tree(clf, filename):
     subprocess.run([
         "dot", "-Tpng",
         "out/decision_tree_pruning/{}.dot".format(filename),
-        "-o", "out/decision_tree_pruning/{}.png".format(filename)
+        "-o", "out/decision_tree_pruning/{}-tree.png".format(filename)
     ])
+
+
+class Timer:
+    def __enter__(self):
+        self.start = time.clock()
+        return self
+
+    def __exit__(self, *args):
+        self.end = time.clock()
+        self.interval = self.end - self.start

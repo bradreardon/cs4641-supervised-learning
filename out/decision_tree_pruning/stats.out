@@ -1,0 +1,25 @@
+car.dataset (no pruning)
+training f1 score: 1.0
+test f1 score: 0.9566473988439307
+time to fit: 0.007473999999999981
+test prediction runtime: 0.0015719999999999068
+
+car.dataset (pruned)
+training f1 score: 0.9384949348769899
+test f1 score: 0.9190751445086706
+time to fit: 0.007584999999999953
+test prediction runtime: 0.0014699999999998603
+
+breastcancer.dataset (no pruning)
+training f1 score: 1.0
+test f1 score: 0.9357142857142857
+time to fit: 2.410999999999941
+test prediction runtime: 0.5180000000000184
+
+breastcancer.dataset (pruned)
+training f1 score: 0.9427549194991055
+test f1 score: 0.9214285714285714
+time to fit: 2.923000000000009
+test prediction runtime: 0.5230000000002732
+
+done
