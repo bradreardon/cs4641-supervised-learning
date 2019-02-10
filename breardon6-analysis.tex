@@ -69,7 +69,7 @@
 
     However, the car data set showed different results with pruning enabled. There was no significant change in either the precision or accuracy measures. The car data set's decision tree classifier took 11.51 seconds to fit without pruning, however with pruning this was reduced to 7.35s with pruning. Prediction runtime for the pruned tree was only slightly longer than the unpruned tree. Due to the completeness of the data, pruning is likely not necessary for this dataset without further tuning.
 
-    Learning curves for the data sets, with and without pruning enabled, can be found in ~\Fref{fig:dt-learning}.
+    Learning curves for the data sets, with and without pruning enabled, can be found in \Fref{fig:dt-learning}.
 
     \begin{figure}[htb]
     \centering
@@ -102,19 +102,21 @@
     \label{fig:dt-learning}
     \end{figure}
 
-
-    \section{Neural networks}
-    TODO
-
     \section{Boosting}
+    We will next evaluate the AdaBoost boosting algorithm included in scikit-learn, using the pruned decision trees from the previous section as base estimators for the algorithm.
 
     \subsection{Parameter selection}
+    For the AdaBoost algorithm, there were three main parameters that needed to be determined. The graphs in \Fref{fig:boosting-param} were used to determine the proper learning rate, number of estimators, and algorithm for both data sets.
 
-    TODO determining learning rate (l\_rate) ~\Fref{fig:boosting-param}.
+    \begin{itemize}
+        \item \textbf{n\_estimators:} the max number of classifiers (decision trees) to fit to the AdaBoost classifier
+        \item \textbf{learning\_rate:} shrinks the contribution of each classifier by this amount
+        \item \textbf{algorithm:} scikit-learn supports two algorithms derived from AdaBoost -- AdaBoost-SAMME and AdaBoost-SAMME.R. SAMME is usually used for discrete values, whereas SAMME.R is used for real/continuous values. 
+    \end{itemize}
 
-    car rate 1.0 n\_est 100
+    The graphs in \Fref{fig:boosting-param} show that the car data generally has lower error with the SAMME algorithm, whereas the breast cancer data leads to lower error when fit with the SAMME.R algorithm. For both sets, the error was generally minimized with a learning rate of 1.0, so that rate was selected for both classifiers.
 
-    cancer rate 1.0 n\_est 200
+    The number of estimators was also determined from the error graphs in \Fref{fig:boosting-param}. The lowest number of estimators where error for the chosen algorithm was minimized was chosen as the number of estimators for each data set. For the car data set, this was approximately 100 estimators, while the cancer data set performed best with around 200 estimators.
 
     \begin{figure}[htb]
     \centering
@@ -157,12 +159,20 @@
     \label{fig:boosting-param}
     \end{figure}
 
+    \subsection{Performance}
+    TODO
+
+    It is important to note that in the case of the car data, boosting did not provide any benefit over the standard pruned decision tree from the previous section. As \Fref{fig:boosting-param} showed, the pruned decision tree maintained a constant error of 0.05, while the AdaBoost classifiers all resulted in much higher errors for this set. Thus, boosting is not a viable choice for the car data set.
+
+    \section{Neural networks}
+    TODO
+
     \section{Support vector machines}
     
 
     \subsection{Performance}
 
-    Learning curves for the car and breast cancer data sets can be found in ~\Fref{fig:svm-learning}.
+    Learning curves for the car and breast cancer data sets can be found in \Fref{fig:svm-learning}.
 
     TODO kernel params?
 
@@ -216,7 +226,7 @@
 
     Lowest k with highest cross-validation
 
-    TODO ~\Fref{fig:knn-param}
+    TODO \Fref{fig:knn-param}
 
     \begin{figure}[htb]
     \centering
@@ -238,7 +248,7 @@
 
     \subsection{Performance}
 
-    TODO ~\Fref{fig:knn-learning}
+    TODO \Fref{fig:knn-learning}
 
     \begin{figure}[htb]
     \centering
