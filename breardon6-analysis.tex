@@ -11,7 +11,7 @@
 \setlength{\topmargin}{-0.4in}
 \setlength{\textheight}{8.5in}
 \setlength{\parindent}{0em}
-\setlength{\parskip}{1em}
+\setlength{\parskip}{.75em}
 
 \usepackage{graphicx}
 \usepackage{grffile}  % support extra dots in filenames
@@ -65,15 +65,11 @@
     The cancer data set, on the other hand, responded much better to more aggressive pruning. The pruned decision tree classifier responded to the data with the best F1 score with a max depth of 5 nodes, and a minimum number of 10 samples occurring at each leaf.
 
     \subsection{Performance}
-    Wall clock time (pruning vs. nopruning)
+    Performance of the tuned classifier for each data set was measured with both wall clock time for fitting the model with the training data, as well as making a prediction with the test data. For the breast cancer data set, pruning resulted in both higher precision and accuracy, with a performance gain during prediction over a non-pruned decision tree (from 0.801ms to 0.479ms). However, the classifier took 0.57 seconds longer to train with pruning enabled (no pruning: 2.38s, pruning: 2.95s). For this data set, with the determined parameters was successful.
 
-    Garbage
+    However, the car data set showed different results with pruning enabled. There was no significant change in either the precision or accuracy measures. The car data set's decision tree classifier took 11.51 seconds to fit without pruning, however with pruning this was reduced to 7.35s with pruning. Prediction runtime for the pruned tree was only slightly longer than the unpruned tree. Due to the completeness of the data, pruning is likely not necessary for this dataset without further tuning.
 
-    Garbage
-
-    Garbage
-
-    Learning curves for the car and breast cancer data sets, with and without pruning enabled, can be found in ~\Fref{fig:dt-learning}.
+    Learning curves for the data sets, with and without pruning enabled, can be found in ~\Fref{fig:dt-learning}.
 
     \begin{figure}[htb]
     \centering

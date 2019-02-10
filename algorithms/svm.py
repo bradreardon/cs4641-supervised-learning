@@ -98,8 +98,9 @@ def svm_cancer(kernel="rbf"):
 
 
 def svm_(options):
-    kernel = options.kernel
-    print(f"svm, kernel: {kernel}")
-    svm_car(kernel=kernel)
-    svm_cancer(kernel=kernel)
+    # kernel = options.kernel
+    for kernel in ['linear', 'rbf', 'poly']:
+        print(f"svm, kernel: {kernel}")
+        svm_car(kernel=kernel)
+        svm_cancer(kernel=kernel)
     print("done")

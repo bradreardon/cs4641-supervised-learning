@@ -1,33 +1,33 @@
 car.dataset (no pruning)
 training f1 score: 1.0
-test f1 score: 0.9566473988439307
-time to fit: 7.336000000000009
-test prediction runtime: 1.5850000000001696
-test accuracy 95.66473988439307
-test precision 96.19716195528808
+test f1 score: 0.9595375722543352
+time to fit: 11.508941650390625
+test prediction runtime: 1.3797283172607422
+test accuracy 95.95375722543352
+test precision 96.33406889548507
 
 car.dataset (pruned)
 training f1 score: 0.9623733719247467
 test f1 score: 0.953757225433526
-time to fit: 8.121000000000045
-test prediction runtime: 1.6380000000000283
+time to fit: 7.353067398071289
+test prediction runtime: 1.500844955444336
 test accuracy 95.37572254335261
 test precision 96.96600605560144
 
 breastcancer.dataset (no pruning)
 training f1 score: 1.0
-test f1 score: 0.9071428571428571
-time to fit: 2.102999999999966
-test prediction runtime: 0.5289999999997796
-test accuracy 90.71428571428571
-test precision 90.66896645021644
+test f1 score: 0.9214285714285714
+time to fit: 2.382993698120117
+test prediction runtime: 0.80108642578125
+test accuracy 92.14285714285714
+test precision 92.09183673469389
 
 breastcancer.dataset (pruned)
-training f1 score: 0.9588550983899821
-test f1 score: 0.9357142857142857
-time to fit: 3.997999999999724
-test prediction runtime: 0.8799999999999919
-test accuracy 93.57142857142857
-test precision 93.64285714285717
+training f1 score: 0.9660107334525939
+test f1 score: 0.9428571428571428
+time to fit: 2.9511451721191406
+test prediction runtime: 0.47898292541503906
+test accuracy 94.28571428571428
+test precision 94.25968421413158
 
 done

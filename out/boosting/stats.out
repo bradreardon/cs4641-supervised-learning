@@ -1,17 +1,17 @@
 car.dataset (n_estimators=100)
 training f1 score: 1.0
 test f1 score: 0.9739884393063584
-time to fit: 436.3619999999999
-test prediction runtime: 11.986000000000052
+time to fit: 429.8701286315918
+test prediction runtime: 11.414051055908203
 test accuracy 97.39884393063583
-test precision 97.60680231778497
+test precision 97.59621427284144
 
-breastcancer.dataset (n_estimators=100)
+breastcancer.dataset (n_estimators=200)
 training f1 score: 1.0
-test f1 score: 0.9500000000000001
-time to fit: 106.78300000000007
-test prediction runtime: 10.22900000000071
-test accuracy 95.0
-test precision 95.125
+test f1 score: 0.9642857142857143
+time to fit: 205.81507682800293
+test prediction runtime: 19.88506317138672
+test accuracy 96.42857142857143
+test precision 96.46501457725947
 
 done
