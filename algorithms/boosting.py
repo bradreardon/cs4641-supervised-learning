@@ -9,7 +9,7 @@ from sklearn.tree import DecisionTreeClassifier
 from util import load_data_set, Timer
 
 
-def boosting_car(n_estimators=1):
+def boosting_car(n_estimators=1, learning_rate=1.):
     car_data = load_data_set('car')
     car_ohe = preprocessing.OneHotEncoder()
     car_ohe.fit(car_data['train']['inputs'] + car_data['test']['inputs'])  # encode features as one-hot
@@ -19,7 +19,7 @@ def boosting_car(n_estimators=1):
         splitter="random",
         min_samples_leaf=5,  # minimum of 5 samples at leaf nodes
         max_depth=9
-    ), n_estimators=n_estimators, algorithm="SAMME")
+    ), n_estimators=n_estimators, algorithm="SAMME", learning_rate=learning_rate)
 
     with Timer() as t:
         clf.fit(car_ohe.transform(car_data['train']['inputs']), car_data['train']['outputs'])
@@ -52,8 +52,11 @@ def boosting_car(n_estimators=1):
     print("test precision", precision)
     print()
     skplt.estimators.plot_learning_curve(
-        clf, data_in, data_out,
-        title="Learning Curve: Boosting (car.dataset, n_estimators={})".format(n_estimators), cv=5)
+        clf, data_in, data_out, cv=5,
+        title="Learning Curve: Boosting (car.dataset, n_estimators={}, l_rate={})".format(
+            n_estimators, learning_rate
+        ),
+    )
     plt.savefig('out/boosting/car-estimators-{}.png'.format(n_estimators))
 
     l_rate = .1
@@ -67,7 +70,7 @@ def boosting_car(n_estimators=1):
                      title="car.dataset, boosting (learning_rate={})".format(l_rate))
 
 
-def boosting_cancer(n_estimators=1):
+def boosting_cancer(n_estimators=1, learning_rate=1.):
     cancer_data = load_data_set('breastcancer')
     cancer_imp = impute.SimpleImputer(missing_values=np.nan, strategy='mean')
     cancer_imp.fit(np.array(cancer_data['train']['inputs'] + cancer_data['test']['inputs'], dtype=np.float32))
@@ -77,7 +80,7 @@ def boosting_cancer(n_estimators=1):
         splitter="random",
         min_samples_leaf=10,  # minimum of 10 samples at leaf nodes
         max_depth=5
-    ), n_estimators=n_estimators, algorithm="SAMME.R")
+    ), n_estimators=n_estimators, algorithm="SAMME.R", learning_rate=learning_rate)
 
     with Timer() as t:
         clf.fit(cancer_imp.transform(cancer_data['train']['inputs']), cancer_data['train']['outputs'])
@@ -109,10 +112,12 @@ def boosting_cancer(n_estimators=1):
     print("test accuracy", accuracy)
     print("test precision", precision)
     print()
-
     skplt.estimators.plot_learning_curve(
-        clf, data_in, data_out,
-        title="Learning Curve: Boosting (breastcancer.dataset, n_estimators={})".format(n_estimators), cv=5)
+        clf, data_in, data_out, cv=5,
+        title="Learning Curve: Boosting (breastcancer.dataset, n_estimators={}, l_rate={})".format(
+            n_estimators, learning_rate
+        ),
+    )
     plt.savefig('out/boosting/breastcancer-estimators-{}.png'.format(n_estimators))
 
     l_rate = .1
@@ -127,8 +132,8 @@ def boosting_cancer(n_estimators=1):
 
 
 def boosting(options):
-    boosting_car(n_estimators=100)
-    boosting_cancer(n_estimators=100)
+    boosting_car(n_estimators=100, learning_rate=1.)
+    boosting_cancer(n_estimators=200, learning_rate=1.)
     # plt.show()
     print("done")
 

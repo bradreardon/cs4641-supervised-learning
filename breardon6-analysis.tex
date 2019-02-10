@@ -14,6 +14,7 @@
 \setlength{\parskip}{1em}
 
 \usepackage{graphicx}
+\usepackage{grffile}  % support extra dots in filenames
 \usepackage{fancyref}
 \usepackage[labelfont=bf]{caption}
 \usepackage{subcaption}
@@ -100,7 +101,51 @@
     TODO
 
     \section{Boosting}
-    TODO
+
+    \subsection{Parameter selection}
+
+    TODO determining learning rate (l\_rate) ~\Fref{fig:boosting-param}.
+
+    \begin{figure}[htb]
+    \centering
+
+    \begin{subfigure}{0.33\textwidth}
+      \includegraphics[width=\linewidth]{out/boosting/car-error-lrate-0.1.png}
+      \caption{Car data, l\_rate=0.1}
+      \label{fig:boosting-param-1}
+    \end{subfigure}\hfil
+    \begin{subfigure}{0.33\textwidth}
+      \includegraphics[width=\linewidth]{out/boosting/car-error-lrate-0.5.png}
+      \caption{Car data, l\_rate=0.5}
+      \label{fig:boosting-param-2}
+    \end{subfigure}\hfil
+    \begin{subfigure}{0.33\textwidth}
+      \includegraphics[width=\linewidth]{out/boosting/car-error-lrate-1.0.png}
+      \caption{Car data, l\_rate=1.0}
+      \label{fig:boosting-param-3}
+    \end{subfigure}
+
+    \medskip
+
+    \begin{subfigure}{0.33\textwidth}
+      \includegraphics[width=\linewidth]{out/boosting/breastcancer-error-lrate-0.1.png}
+      \caption{Cancer data, l\_rate=0.1}
+      \label{fig:boosting-param-4}
+    \end{subfigure}\hfil
+    \begin{subfigure}{0.33\textwidth}
+      \includegraphics[width=\linewidth]{out/boosting/breastcancer-error-lrate-0.5.png}
+      \caption{Cancer data, l\_rate=0.5}
+      \label{fig:boosting-param-5}
+    \end{subfigure}\hfil
+    \begin{subfigure}{0.33\textwidth}
+      \includegraphics[width=\linewidth]{out/boosting/breastcancer-error-lrate-1.0.png}
+      \caption{Cancer data, l\_rate=1.0}
+      \label{fig:boosting-param-6}
+    \end{subfigure}
+
+    \caption{Selecting a learning rate and number of estimators for the AdaBoot algorithm, using the car and breast cancer sets.}
+    \label{fig:boosting-param}
+    \end{figure}
 
     \section{Support vector machines}
     
