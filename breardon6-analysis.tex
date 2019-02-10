@@ -3,7 +3,7 @@
 % Environment setup
 
 \usepackage[
-    margin=1.25in
+    margin=1in
 ]{geometry} %geometry (sets margin) and other useful packages 
 \setlength{\oddsidemargin}{.25in}
 \setlength{\evensidemargin}{.25in}
@@ -29,6 +29,9 @@
 
     \section{Introduction}
     The purpose of this assignment is to evaluate various supervised learning techniques in the context of two classification algorithms. We will focus on analyzing and adjusting five learning algorithms using two publically-available data sets, through cross-validation and hyperparameter adjustments. Then, we can use our adjusted models to compare supervised learning techniques in the context of each of our classification algorithms.
+
+    \subsection{Collaboration disclosure}
+    I collaborated on the programming portion of this assignment with Nikolai Vorobiev in order to produce a code-base capable of using scikit-learn to effectively evaluate the given data sets. Though the code we used to run analysis on the algorithms is the same, this analysis is wholly my own.
 
     \section{Classification algorithms}
     For the purposes of this report, data sets were obtained from the UCI Machine Learning Repository. Each data set downloaded was processed with a custom script in the corresponding folder, \textbf{process.py}, which randomly separated the data into an 80\% training data and 20\% test data split using the \textbf{train\_test\_split} function from scikit-learn. The split data was then serialized using Python's \textbf{pickle} module into \textbf{.dataset} files, to ensure that the training and test sets remained constant for evaluation.
@@ -114,8 +117,6 @@
 
     The graphs in \Fref{fig:boosting-param} show that the car data generally has lower error with the SAMME algorithm, whereas the breast cancer data leads to lower error when fit with the SAMME.R algorithm. For both sets, the error was generally minimized with a learning rate of 1.0, so that rate was selected for both classifiers.
 
-    The number of estimators was also determined from the error graphs in \Fref{fig:boosting-param}. The lowest number of estimators where error for the chosen algorithm was minimized was chosen as the number of estimators for each data set. For the car data set, this was approximately 100 estimators, while the cancer data set performed best with around 200 estimators.
-
     \begin{figure}[htb]
     \centering
 
@@ -156,6 +157,8 @@
     \caption{Selecting a learning rate and number of estimators for the AdaBoot algorithm, using the car and breast cancer sets.}
     \label{fig:boosting-param}
     \end{figure}
+
+    The number of estimators was also determined from the error graphs in \Fref{fig:boosting-param}. The lowest number of estimators where error for the chosen algorithm was minimized was chosen as the number of estimators for each data set. For the car data set, this was approximately 100 estimators, while the cancer data set performed best with around 200 estimators.
 
     \subsection{Performance}
     \Fref{fig:boosting-perf} shows the learning curves for the car and data set pruned decision tree classifiers before and after applying boosting. Boosting provided a tangible benefit in accuracy and precision for both data sets after proper parameter selection. With the chosen parameters, the car data set and the cancer data set both showed better cross-validation scores with boosting than over the standard pruned decision tree classifiers in the previous section.
