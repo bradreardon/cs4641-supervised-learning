@@ -56,12 +56,22 @@
     \section{Decision trees with pruning}
 
     \subsection{Parameter selection}
-    GINI criterion was selected because -- no discernible difference in training results, GINI is computationally faster
+    To begin evaluating the decision tree algorithm, hyperparameter selection was essential to tuning the algorithms to each data set. Both the car and cancer datasets were evaluated with the GINI index criterion as well as the entropy criterion. The two criterion had no discernible differences in training results, so as a result, GINI was selected for the decision tree classifier on both sets, as it allows us to avoid a logarithmic calculation, saving compute time.
 
-    Max depth, min samples per leaf methodology... Car seemed to have much lower accuracy with lower depth -- perhaps because the data set was complete. Chose max depth of 9 as a result. Cancer responsed better to more aggressive pruning with a max 
+    The next parameters that needed tuning were the pruning parameters included in the scikit-learn decision tree classifier. Namely, the max depth of the tree, as well as the minimum samples per leaf, were tuned to fit each data set.
+
+    For the car data set, parameter selection showed that a lower-depth tree had much lower accuracy, likely due to the fact that the dataset had instances covering the entire attribute space. As a result, a max depth of 9 nodes was selected for the car data set, with a minimum number of 5 samples occurring at each leaf node to minimize the amount of information loss.
+
+    The cancer data set, on the other hand, responded much better to more aggressive pruning. The pruned decision tree classifier responded to the data with the best F1 score with a max depth of 5 nodes, and a minimum number of 10 samples occurring at each leaf.
 
     \subsection{Performance}
     Wall clock time (pruning vs. nopruning)
+
+    Garbage
+
+    Garbage
+
+    Garbage
 
     Learning curves for the car and breast cancer data sets, with and without pruning enabled, can be found in ~\Fref{fig:dt-learning}.
 
@@ -105,6 +115,10 @@
     \subsection{Parameter selection}
 
     TODO determining learning rate (l\_rate) ~\Fref{fig:boosting-param}.
+
+    car rate 1.0 n\_est 100
+
+    cancer rate 1.0 n\_est 200
 
     \begin{figure}[htb]
     \centering
@@ -153,6 +167,8 @@
     \subsection{Performance}
 
     Learning curves for the car and breast cancer data sets can be found in ~\Fref{fig:svm-learning}.
+
+    TODO kernel params?
 
     \begin{figure}[htb]
     \centering
