@@ -38,9 +38,7 @@
     \subsection{Car data set}
     The Car Evaluation Database was created in June, 1997 by Marko Bohanec. It contains 1728 instances and six attributes. The purpose of this database is to attempt to classify a car as an unacceptable, acceptable, good, or very good choice based on factors including cost of ownership, comfort, and safety. Full details about the data set can be found at the source link below.
 
-    Note that this specific data set contains only categorical attributes. As scikit-learn does not support non-continuous variables, a one-hot encoder was used to re-encode categorical features into multiple dimensions.
-
-    The problem at hand for this dataset is determining the acceptability for a car purchase based on the aforementioned attributes. Because this dataset notes that the instances in the data set completely cover the attribute space, this data set is interesting in particular due to its usefulness in comparing the optimization of different supervised learning algorithms.
+    The problem at hand for this dataset is determining the acceptability for a car purchase based on the aforementioned attributes. Because this dataset notes that the instances in the data set completely cover the attribute space, this data set is interesting in particular due to its usefulness in comparing the optimization of different supervised learning algorithms. Note that this specific data set contains only categorical attributes. As scikit-learn does not support non-continuous variables, a one-hot encoder was used to re-encode categorical features into multiple dimensions.
 
     \textbf{Source:} https://archive.ics.uci.edu/ml/datasets/car+evaluation
 
@@ -160,9 +158,42 @@
     \end{figure}
 
     \subsection{Performance}
-    TODO
+    \Fref{fig:boosting-perf} shows the learning curves for the car and data set pruned decision tree classifiers before and after applying boosting. Boosting provided a tangible benefit in accuracy and precision for both data sets after proper parameter selection. With the chosen parameters, the car data set and the cancer data set both showed better cross-validation scores with boosting than over the standard pruned decision tree classifiers in the previous section.
 
-    It is important to note that in the case of the car data, boosting did not provide any benefit over the standard pruned decision tree from the previous section. As \Fref{fig:boosting-param} showed, the pruned decision tree maintained a constant error of 0.05, while the AdaBoost classifiers all resulted in much higher errors for this set. Thus, boosting is not a viable choice for the car data set.
+    \begin{figure}[htb]
+    \centering
+
+    \begin{subfigure}{0.5\textwidth}
+      \includegraphics[width=\linewidth]{out/decision_tree_pruning/car-prune-learning.png}
+      \caption{Car data, pruning, no boosting}
+      \label{fig:boosting-perf-1}
+    \end{subfigure}\hfil
+    \begin{subfigure}{0.5\textwidth}
+      \includegraphics[width=\linewidth]{out/boosting/car-estimators-100.png}
+      \caption{Car data, pruning, with boosting}
+      \label{fig:boosting-perf-2}
+    \end{subfigure}
+
+    \medskip
+
+    \begin{subfigure}{0.5\textwidth}
+      \includegraphics[width=\linewidth]{out/decision_tree_pruning/breastcancer-prune-learning.png}
+      \caption{Breast cancer data, pruning, no boosting}
+      \label{fig:boosting-perf-3}
+    \end{subfigure}\hfil
+    \begin{subfigure}{0.5\textwidth}
+      \includegraphics[width=\linewidth]{out/boosting/breastcancer-estimators-200.png}
+      \caption{Breast cancer data, pruning, with boosting}
+      \label{fig:boosting-perf-4}
+    \end{subfigure}
+
+    \caption{Learning curves for the car and cancer data sets, with and without boosting on a pruned decision tree.}
+    \label{fig:boosting-perf}
+    \end{figure}
+
+    However, this increase in accuracy and precision for both data sets does come at the cost of extra wall clock time during both the fit and predict phases of testing. Due to the nature of the AdaBoost algorithm, fit and prediction times increase with some linearity to the number of estimators used to fit the classifier. This increase in time represented approximate 70-fold and 61-fold increases in fit times for the cancer and car data sets respectively. Similar slow downs resulted in prediction using the boosting algorithm over a standard pruned decision tree.
+
+    Therefore, boosting does increase the accuracy and precision for both models, however at the cost of slowing down fit and classification times across the board.
 
     \section{Neural networks}
     TODO

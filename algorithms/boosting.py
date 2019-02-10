@@ -53,7 +53,7 @@ def boosting_car(n_estimators=1, learning_rate=1.):
     print()
     skplt.estimators.plot_learning_curve(
         clf, data_in, data_out, cv=5,
-        title="Learning Curve: Boosting (car.dataset, n_estimators={}, l_rate={})".format(
+        title="Learning Curve: Boosting (car.dataset, n_est={}, l_rate={})".format(
             n_estimators, learning_rate
         ),
     )
@@ -114,7 +114,7 @@ def boosting_cancer(n_estimators=1, learning_rate=1.):
     print()
     skplt.estimators.plot_learning_curve(
         clf, data_in, data_out, cv=5,
-        title="Learning Curve: Boosting (breastcancer.dataset, n_estimators={}, l_rate={})".format(
+        title="Learning Curve: Boosting (breastcancer.dataset, n_est={}, l_rate={})".format(
             n_estimators, learning_rate
         ),
     )
