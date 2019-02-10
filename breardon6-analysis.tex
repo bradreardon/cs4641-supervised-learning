@@ -32,6 +32,8 @@
     \section{Classification problems}
     For the purposes of this report, data sets were obtained from the UCI Machine Learning Repository. Each data set downloaded was processed with a custom script in the corresponding folder, \textbf{process.py}, which randomly separated the data into an 80\% training data and 20\% test data split using the \textbf{train\_test\_split} function from scikit-learn. The split data was then serialized using Python's \textbf{pickle} module, to ensure that the training and test sets remained constant for evaluation.
 
+    For the purposes of this assignment, cross-validation scoring of the various algorithms for each classification problem will be shown as the average score of 5-fold cross validation.
+
     \subsection{Car data set}
     The Car Evaluation Database was created in June, 1997 by Marko Bohanec. It contains 1728 instances and six attributes. The purpose of this database is to attempt to classify a car as an unacceptable, acceptable, good, or very good choice based on factors including cost of ownership, comfort, and safety. Full details about the data set can be found at the source link below.
 
@@ -148,8 +150,56 @@
     \label{fig:svm-learning}
     \end{figure}
 
-    \section{k-nearest neighbors}
+    \section{$k$-nearest neighbors}
     TODO
+
+    \subsection{Parameter selection}
+    car k=11
+    cancer k=5
+
+    Lowest k with highest cross-validation
+
+    TODO ~\Fref{fig:knn-param}
+
+    \begin{figure}[htb]
+    \centering
+
+    \begin{subfigure}{0.5\textwidth}
+      \includegraphics[width=\linewidth]{out/knn/car-k-testing.png}
+      \caption{Car data set}
+      \label{fig:knn-param-1}
+    \end{subfigure}\hfil
+    \begin{subfigure}{0.5\textwidth}
+      \includegraphics[width=\linewidth]{out/knn/breastcancer-k-testing.png}
+      \caption{Breast cancer data set}
+      \label{fig:knn-param-2}
+    \end{subfigure}
+
+    \caption{Testing $k$-nearest neighbors with various values of $k$}
+    \label{fig:knn-param}
+    \end{figure}
+
+    \subsection{Performance}
+
+    TODO ~\Fref{fig:knn-learning}
+
+    \begin{figure}[htb]
+    \centering
+
+    \begin{subfigure}{0.5\textwidth}
+      \includegraphics[width=\linewidth]{out/knn/car-k-11.png}
+      \caption{Car data set, $k=11$}
+      \label{fig:knn-learning-1}
+    \end{subfigure}\hfil
+    \begin{subfigure}{0.5\textwidth}
+      \includegraphics[width=\linewidth]{out/knn/breastcancer-k-5.png}
+      \caption{Breast cancer data set, $k=5$}
+      \label{fig:knn-learning-2}
+    \end{subfigure}
+
+    \caption{TODO TODO}
+    \label{fig:knn-learning}
+    \end{figure}
 
     \section{Analysis}
     TODO

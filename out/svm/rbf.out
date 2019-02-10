@@ -1,17 +1,17 @@
 svm, kernel: rbf
 car.dataset (kernel=rbf)
-training f1 score: 1.0
-test f1 score: 0.9653179190751445
-time to fit: 7.991999999999999
-test prediction runtime: 1.3329999999998066
-test accuracy 96.53179190751445
-test precision 96.90145757116355
+training f1 score: 0.9377713458755427
+test f1 score: 0.9219653179190751
+time to fit: 65.79599999999996
+test prediction runtime: 11.062000000000127
+test accuracy 92.1965317919075
+test precision 92.61696932952985
 
 breastcancer.dataset (kernel=rbf)
 training f1 score: 0.998211091234347
 test f1 score: 0.9500000000000001
-time to fit: 9.901999999999855
-test prediction runtime: 1.6449999999998965
+time to fit: 9.622999999999937
+test prediction runtime: 1.255000000000006
 test accuracy 95.0
 test precision 95.38888888888889
 

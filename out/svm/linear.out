@@ -1,17 +1,17 @@
 svm, kernel: linear
 car.dataset (kernel=linear)
-training f1 score: 1.0
-test f1 score: 0.9595375722543352
-time to fit: 8.651000000000186
-test prediction runtime: 1.379000000000019
-test accuracy 95.95375722543352
-test precision 96.33406889548507
+training f1 score: 0.9464544138929089
+test f1 score: 0.930635838150289
+time to fit: 36.69200000000017
+test prediction runtime: 7.106000000000057
+test accuracy 93.0635838150289
+test precision 94.12385835428843
 
 breastcancer.dataset (kernel=linear)
 training f1 score: 0.9695885509838998
 test f1 score: 0.9642857142857143
-time to fit: 7.406999999999719
-test prediction runtime: 0.6990000000000052
+time to fit: 5.627000000000049
+test prediction runtime: 0.5589999999999762
 test accuracy 96.42857142857143
 test precision 96.46501457725947
 
