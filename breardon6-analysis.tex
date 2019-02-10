@@ -2,7 +2,9 @@
 
 % Environment setup
 
-\usepackage[margin=1.25in]{geometry} %geometry (sets margin) and other useful packages 
+\usepackage[
+    margin=1.25in
+]{geometry} %geometry (sets margin) and other useful packages 
 \setlength{\oddsidemargin}{.25in}
 \setlength{\evensidemargin}{.25in}
 \setlength{\textwidth}{6in}
@@ -10,6 +12,11 @@
 \setlength{\textheight}{8.5in}
 \setlength{\parindent}{0em}
 \setlength{\parskip}{1em}
+
+\usepackage{graphicx}
+\usepackage{fancyref}
+\usepackage[labelfont=bf]{caption}
+\usepackage{subcaption}
 
 
 \title{\textbf{CS 4641:} Supervised Learning}
@@ -46,13 +53,46 @@
     \section{Decision trees with pruning}
 
     \subsection{Parameter selection}
-    GINI criterion was selected because ...
+    GINI criterion was selected because -- no discernible difference in training results, GINI is computationally faster
 
-    Pruning parameters -- min_samples_leaf for car: 25? for breast cancer: 10?
-    Pruning parameters -- max_depth for car: 9? for breast cancer: none?
+    Max depth, min samples per leaf methodology... Car seemed to have much lower accuracy with lower depth -- perhaps because the data set was complete. Chose max depth of 9 as a result. Cancer responsed better to more aggressive pruning with a max 
 
     \subsection{Performance}
     Wall clock time (pruning vs. nopruning)
+
+    Learning curves for the car and breast cancer data sets, with and without pruning enabled, can be found in ~\Fref{fig:dt-learning}.
+
+    \begin{figure}[htb]
+    \centering
+
+    \begin{subfigure}{0.5\textwidth}
+      \includegraphics[width=\linewidth]{out/decision_tree_pruning/car-noprune-learning.png}
+      \caption{Car data set, no pruning}
+      \label{fig:dt-learning-1}
+    \end{subfigure}\hfil
+    \begin{subfigure}{0.5\textwidth}
+      \includegraphics[width=\linewidth]{out/decision_tree_pruning/car-prune-learning.png}
+      \caption{Car data set, with pruning}
+      \label{fig:dt-learning-2}
+    \end{subfigure}
+
+    \medskip
+
+    \begin{subfigure}{0.5\textwidth}
+      \includegraphics[width=\linewidth]{out/decision_tree_pruning/breastcancer-noprune-learning.png}
+      \caption{Breast cancer data set, no pruning}
+      \label{fig:dt-learning-3}
+    \end{subfigure}\hfil
+    \begin{subfigure}{0.5\textwidth}
+      \includegraphics[width=\linewidth]{out/decision_tree_pruning/breastcancer-prune-learning.png}
+      \caption{Breast cancer data set, with pruning}
+      \label{fig:dt-learning-4}
+    \end{subfigure}
+
+    \caption{Learning curves for the car and breast cancer data sets using a decision tree classifier, with and without pruning.}
+    \label{fig:dt-learning}
+    \end{figure}
+
 
     \section{Neural networks}
     TODO
@@ -61,7 +101,52 @@
     TODO
 
     \section{Support vector machines}
-    TODO
+    
+
+    \subsection{Performance}
+
+    Learning curves for the car and breast cancer data sets can be found in ~\Fref{fig:svm-learning}.
+
+    \begin{figure}[htb]
+    \centering
+
+    \begin{subfigure}{0.33\textwidth}
+      \includegraphics[width=\linewidth]{out/svm/car-kernel-linear.png}
+      \caption{Car data, linear kernel}
+      \label{fig:svm-learning-1}
+    \end{subfigure}\hfil
+    \begin{subfigure}{0.33\textwidth}
+      \includegraphics[width=\linewidth]{out/svm/car-kernel-rbf.png}
+      \caption{Car data, RBF kernel}
+      \label{fig:svm-learning-2}
+    \end{subfigure}\hfil
+    \begin{subfigure}{0.33\textwidth}
+      \includegraphics[width=\linewidth]{out/svm/car-kernel-poly.png}
+      \caption{Car data, poly kernel}
+      \label{fig:svm-learning-3}
+    \end{subfigure}
+
+    \medskip
+
+    \begin{subfigure}{0.33\textwidth}
+      \includegraphics[width=\linewidth]{out/svm/breastcancer-kernel-linear.png}
+      \caption{Breast cancer, linear kernel}
+      \label{fig:svm-learning-4}
+    \end{subfigure}\hfil
+    \begin{subfigure}{0.33\textwidth}
+      \includegraphics[width=\linewidth]{out/svm/breastcancer-kernel-rbf.png}
+      \caption{Breast cancer, RBF kernel}
+      \label{fig:svm-learning-5}
+    \end{subfigure}\hfil
+    \begin{subfigure}{0.33\textwidth}
+      \includegraphics[width=\linewidth]{out/svm/breastcancer-kernel-poly.png}
+      \caption{Breast cancer, poly kernel}
+      \label{fig:svm-learning-6}
+    \end{subfigure}
+
+    \caption{Learning curves for the car and breast cancer data sets using an SVM classifier, with linear, RBF, and poly kernels.}
+    \label{fig:svm-learning}
+    \end{figure}
 
     \section{k-nearest neighbors}
     TODO

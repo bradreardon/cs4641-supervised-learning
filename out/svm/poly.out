@@ -1,0 +1,18 @@
+svm, kernel: poly
+car.dataset (kernel=poly)
+training f1 score: 1.0
+test f1 score: 0.9624277456647399
+time to fit: 7.447999999999899
+test prediction runtime: 1.3920000000000599
+test accuracy 96.24277456647398
+test precision 96.61665094605814
+
+breastcancer.dataset (kernel=poly)
+training f1 score: 0.998211091234347
+test f1 score: 0.9
+time to fit: 63.98899999999985
+test prediction runtime: 0.6330000000001057
+test accuracy 90.0
+test precision 90.14694305956442
+
+done
