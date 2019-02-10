@@ -127,7 +127,7 @@ def decision_tree_pruning_cancer():
         criterion="gini",
         splitter="random",
         min_samples_leaf=10,  # minimum of 10 samples at leaf nodes
-        max_depth=3
+        max_depth=5
     )
 
     with Timer() as t:
