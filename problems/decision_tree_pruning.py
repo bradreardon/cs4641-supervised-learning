@@ -1,39 +1,57 @@
-# Analyze model complexity curve for NonBoost tree classifier, max_depth
-'''file = open("coding_survey_nonboost_max_depth_results.csv", "w")
-print("Beginning model complexity analysis for NonBoost...")
-file.write("max_depth" + ", " + "cross_val_score" + ", " + "training_score" + ", " + "testing_score\n")
-for max_depth in range(250):
-    classifier = tree.DecisionTreeClassifier(max_depth = max_depth + 1)
-    file.write(str(max_depth + 1) + "," + str(cross_val_score(
-    classifier, input_list, output_list, cv = setCount).mean()) + ", ")
-    classifier.fit(input_list, output_list)
-    file.write(str(classifier.score(input_list, output_list)) + ", ")
-    file.write(str(classifier.score(test_input, test_output)) + "\n")'''
+def decision_tree_pruning(options):
+    x_splits = list()
+    y_f1_test = list()
+    y_f1_train = list()
 
-# Analyze model complexity curve for AdaBoost tree classifier, find n_estimators
-'''file = open("coding_survey_adaboost_n_estimators_results.csv", "w")
-print("Beginning model complexity analysis for AdaBoost... n_estimators")
-file.write("n_estimators" + ", " + "cross_val_score" + ", " + "training_score" + ", " + "testing_score\n")
-for n_estimators in range(50):
-    classifier = AdaBoostClassifier(base_estimator=tree.DecisionTreeClassifier(), n_estimators=(n_estimators + 1) * 10)
-    file.write(str((n_estimators + 1) * 10) + "," + str(cross_val_score(
-    classifier, input_list, output_list, cv = setCount).mean()) + ", ")
-    classifier.fit(input_list, output_list)
-    file.write(str(classifier.score(input_list, output_list)) + ", ")
-    file.write(str(classifier.score(test_input, test_output)) + "\n")'''
+    for i in range(10):
+        split_pct = (i + 1) * .05  # 5% steps
+        x_splits.append(split_pct)
+        trains = list()
+        tests = list()
 
-# Analyze model complexity curve for AdaBoost tree classifier, find max_depth
-'''file = open("coding_survey_adaboost_max_depth_results.csv", "w")
-print("Beginning model complexity analysis for AdaBoost... max_depth")
-file.write("max_depth" + ", " + "cross_val_score" + ", " + "training_score" + ", " + "testing_score\n")
-for max_depth in range(100):
-    classifier = AdaBoostClassifier(base_estimator=tree.DecisionTreeClassifier(max_depth=max_depth + 1), n_estimators=50)
-    result = ""
-    result += (str(max_depth + 1) + "," + str(cross_val_score(
-    classifier, input_list, output_list, cv = setCount).mean()) + ", ")
-    classifier.fit(input_list, output_list)
-    result += str(classifier.score(input_list, output_list)) + ", "
-    result += str(classifier.score(test_input, test_output)) + "\n"
-    print(result)
-    file.write(result)'''
+        for j in range(NUM_TRIALS):
+            with open('car.data') as f:
+                d = [line.strip().split(',') for line in f.readlines()]
+                d = [
+                    (sample[0:-1], [sample[-1]]) for sample in d
+                ]
 
+                train, test = split_data(d, split_pct=split_pct)
+                train_data_in, train_data_out = [s[0] for s in train], [s[1] for s in train]
+                test_data_in, test_data_out = [s[0] for s in test], [s[1] for s in test]
+
+                ohe = preprocessing.OneHotEncoder()
+
+                ohe.fit(train_data_in)  # encode features as one-hot
+
+            # print(f"decision_tree_pruning with ./datasets/car, split_pct={split_pct:.2f}")
+
+            # set up classifier to limit number of leaves
+            clf = tree.DecisionTreeClassifier(
+                # criterion="gini",
+                # splitter='random',
+                min_samples_leaf=3,  # minimum of X samples at leaf nodes
+                max_depth=10
+            )
+            clf.fit(ohe.transform(train_data_in), train_data_out)
+
+            # score = clf.score(ohe.transform(test_data_in), test_data_out)
+            # print(f"score: {score}")
+
+            predicted = clf.predict(ohe.transform(train_data_in))
+            train_f1_score = metrics.f1_score(train_data_out, predicted, average='micro')
+            predicted = clf.predict(ohe.transform(test_data_in))
+            test_f1_score = metrics.f1_score(test_data_out, predicted, average='micro')
+
+            trains.append(train_f1_score)
+            tests.append(test_f1_score)
+
+        y_f1_train.append(np.mean(trains))
+        y_f1_test.append(np.mean(tests))
+
+    plt.plot(x_splits, y_f1_train, label='training data')
+    plt.plot(x_splits, y_f1_test, label='test data')
+
+    plt.xlabel('% of data in test set')
+    plt.ylabel('F1 score')
+    plt.show()

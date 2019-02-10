@@ -1,74 +1,109 @@
-#!/usr/bin/env python3.7
+#!/usr/bin/env python3
 import argparse
 
-import matplotlib
 import matplotlib.pyplot as plt
+import scikitplot as skplt
 import numpy as np
-from sklearn import tree, preprocessing, metrics
+from sklearn import tree, preprocessing, metrics, impute
+from sklearn.model_selection import cross_val_score
 
-from datasets.util import split_data
-
-
-NUM_TRIALS = 20
+from util import load_data_set
 
 
 def decision_tree_pruning(options):
-    x_splits = list()
+    car_data = load_data_set('car')
+    car_ohe = preprocessing.OneHotEncoder()
+    car_ohe.fit(car_data['train']['inputs'] + car_data['test']['inputs'])  # encode features as one-hot
+
+    cancer_data = load_data_set('breastcancer')
+    cancer_imp = impute.SimpleImputer(missing_values=np.nan, strategy='mean')
+    cancer_imp.fit(np.array(cancer_data['train']['inputs'] + cancer_data['test']['inputs'], dtype=np.float32))
+
+    x = list()
     y_f1_test = list()
     y_f1_train = list()
+    y_cross = list()
 
-    for i in range(10):
-        split_pct = (i + 1) * .05  # 5% steps
-        x_splits.append(split_pct)
-        trains = list()
-        tests = list()
+    for i in range(20):  # max depth from 1 to 39 in steps of 2
+        max_depth = 1 + 2 * i
+        x.append(max_depth)
 
-        for j in range(NUM_TRIALS):
-            with open('./datasets/car/car.data') as f:
-                d = [line.strip().split(',') for line in f.readlines()]
-                d = [
-                    (sample[0:-1], [sample[-1]]) for sample in d
-                ]
+        clf = tree.DecisionTreeClassifier(
+            criterion="gini",
+            splitter="random",
+            min_samples_leaf=10,  # minimum of 10 samples at leaf nodes
+            max_depth=max_depth
+        )
+        clf.fit(car_ohe.transform(car_data['train']['inputs']), car_data['train']['outputs'])
 
-                train, test = split_data(d, split_pct=split_pct)
-                train_data_in, train_data_out = [s[0] for s in train], [s[1] for s in train]
-                test_data_in, test_data_out = [s[0] for s in test], [s[1] for s in test]
+        predicted = clf.predict(car_ohe.transform(car_data['train']['inputs']))
+        train_f1_score = metrics.f1_score(car_data['train']['outputs'], predicted, average='micro')
+        predicted = clf.predict(car_ohe.transform(car_data['test']['inputs']))
+        test_f1_score = metrics.f1_score(car_data['test']['outputs'], predicted, average='micro')
 
-                ohe = preprocessing.OneHotEncoder()
+        data_in = car_ohe.transform(car_data['train']['inputs'] + car_data['test']['inputs'])
+        data_out = car_data['train']['outputs'] + car_data['test']['outputs']
 
-                ohe.fit(train_data_in)  # encode features as one-hot
+        y_f1_train.append(train_f1_score)
+        y_f1_test.append(test_f1_score)
+        y_cross.append(np.mean(cross_val_score(clf, data_in, data_out, cv=5)))
 
-            # print(f"decision_tree_pruning with ./datasets/car, split_pct={split_pct:.2f}")
+    plt.figure()
+    plt.plot(x, y_f1_train, label='training F1 score')
+    plt.plot(x, y_f1_test, label='test F1 score')
+    plt.plot(x, y_cross, label='cross-validation')
 
-            # set up classifier to limit number of leaves
-            clf = tree.DecisionTreeClassifier(
-                # criterion="gini",
-                # splitter='random',
-                min_samples_leaf=3,  # minimum of X samples at leaf nodes
-                max_depth=10
-            )
-            clf.fit(ohe.transform(train_data_in), train_data_out)
+    plt.title('Max depth v. decision tree performance (car.dataset)')
+    plt.xlabel('Max depth')
+    plt.ylabel('Score')
+    plt.legend()
+    plt.savefig('out/decision_tree_pruning/car-maxdepth.png', dpi=300)
 
-            # score = clf.score(ohe.transform(test_data_in), test_data_out)
-            # print(f"score: {score}")
+    x = list()
+    y_f1_test = list()
+    y_f1_train = list()
+    y_cross = list()
 
-            predicted = clf.predict(ohe.transform(train_data_in))
-            train_f1_score = metrics.f1_score(train_data_out, predicted, average='micro')
-            predicted = clf.predict(ohe.transform(test_data_in))
-            test_f1_score = metrics.f1_score(test_data_out, predicted, average='micro')
+    for i in range(20):  # max depth from 1 to 39 in steps of 2
+        max_depth = 1 + 2 * i
+        x.append(max_depth)
 
-            trains.append(train_f1_score)
-            tests.append(test_f1_score)
+        clf = tree.DecisionTreeClassifier(
+            criterion="gini",
+            splitter="random",
+            min_samples_leaf=10,  # minimum of 10 samples at leaf nodes
+            max_depth=max_depth
+        )
+        clf.fit(cancer_imp.transform(cancer_data['train']['inputs']), cancer_data['train']['outputs'])
 
-        y_f1_train.append(np.mean(trains))
-        y_f1_test.append(np.mean(tests))
+        predicted = clf.predict(cancer_imp.transform(cancer_data['train']['inputs']))
+        train_f1_score = metrics.f1_score(cancer_data['train']['outputs'], predicted, average='micro')
+        predicted = clf.predict(cancer_imp.transform(cancer_data['test']['inputs']))
+        test_f1_score = metrics.f1_score(cancer_data['test']['outputs'], predicted, average='micro')
 
-    plt.plot(x_splits, y_f1_train, label='training data')
-    plt.plot(x_splits, y_f1_test, label='test data')
+        data_in = cancer_imp.transform(cancer_data['train']['inputs'] + cancer_data['test']['inputs'])
+        data_out = cancer_data['train']['outputs'] + cancer_data['test']['outputs']
 
-    plt.xlabel('% of data in test set')
-    plt.ylabel('F1 score')
+        y_f1_train.append(train_f1_score)
+        y_f1_test.append(test_f1_score)
+        y_cross.append(np.mean(cross_val_score(clf, data_in, data_out, cv=5)))
+
+        skplt.estimators.plot_learning_curve(
+            clf, data_in, data_out, title="Learning Curve: Decision Trees (breastcancer.dataset)")
+
+    plt.figure()
+    plt.plot(x, y_f1_train, label='training F1 score')
+    plt.plot(x, y_f1_test, label='test F1 score')
+    plt.plot(x, y_cross, label='cross-validation')
+
+    plt.title('Max depth v. decision tree performance (breastcancer.dataset)')
+    plt.xlabel('Max depth')
+    plt.ylabel('Score!')
+    plt.legend()
+    plt.savefig('out/decision_tree_pruning/breastcancer-maxdepth.png', dpi=300)
+
     plt.show()
+    print("done")
 
 
 def neural_net(options):
