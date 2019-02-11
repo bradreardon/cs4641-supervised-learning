@@ -31,7 +31,7 @@
     The purpose of this assignment is to evaluate various supervised learning techniques in the context of two classification algorithms. We will focus on analyzing and adjusting five learning algorithms using two publically-available data sets, through cross-validation and hyperparameter adjustments. Then, we can use our adjusted models to compare supervised learning techniques in the context of each of our classification algorithms.
 
     \subsection{Collaboration disclosure}
-    I collaborated on the programming portion of this assignment with Nikolai Vorobiev in order to produce a code-base capable of using scikit-learn to effectively evaluate the given data sets. Though the code we used to run analysis on the algorithms is the same, this analysis is wholly my own.
+    I collaborated on planning and tuning the programming portion of this assignment with Nikolai Vorobiev in order to produce a code-base capable of using scikit-learn to effectively evaluate the given data sets. Though the code we used to run analysis on the algorithms is the same, this analysis is wholly my own.
 
     \section{Classification algorithms}
     For the purposes of this report, data sets were obtained from the UCI Machine Learning Repository. Each data set downloaded was processed with a custom script in the corresponding folder, \textbf{process.py}, which randomly separated the data into an 80\% training data and 20\% test data split using the \textbf{train\_test\_split} function from scikit-learn. The split data was then serialized using Python's \textbf{pickle} module into \textbf{.dataset} files, to ensure that the training and test sets remained constant for evaluation.
@@ -371,13 +371,62 @@
 
     Due to the accuracy bump that the breast cancer data suffered compared to other algorithms, the data suggests that a neural network may not be most appropriate for the cancer data in the default configuration. However, if model fit time is not an issue for the particular application, a neural network may be a good fit for the car evaluation data set.
 
-    \section{Analysis}
-    TODO
-
     \section{Discussion}
-    TODO
+    So far, we've individually evaluated the performance of five different supervised learning algorithms in the context of two classification problems. In this section, I intend to compare the merits of each tuned classifier thus far with regards to each data set, to determine which algorithm is the best fit for classification in a real-world application.
+
+    \subsection{Car data set}
+
+    \begin{table}[h!]
+    \centering
+    \begin{tabular}{||l c c c c c||} 
+     \hline
+     \textbf{Classifier} & Training F1 & Fit Time & Prediction Time & Accuracy & Precision \\
+     \hline
+     \textbf{Decision Tree (pruned)} & 96.24\% & 7.35ms & 1.50ms & 95.38\% & 96.97\% \\ 
+     \textbf{Boosting} & 100\% & 0.45s & 11.76ms & 97.69\% & 98.18\% \\
+     \textbf{$k$-nearest Neighbors} & 96.89\% & 4.97ms & 23.84ms & 91.91\% & 91.24\% \\
+     \textbf{SVM} & 94.65\% & 40.81ms & 6.76ms & 93.06\% & 94.12\% \\
+     \textbf{Neural Net} & 100\% & 2.33s & 1.68ms & 97.69\% & 98.12\% \\
+     \hline
+    \end{tabular}
+    \caption{Statistics for tuned classifiers, car.dataset}
+    \label{tab:car-stats}
+    \end{table}
+
+    Looking at \Fref{tab:car-stats}, we can quickly determine that the classifiers with the best overall performance were the boosted decision tree and the neural network. These two classifiers had the best accuracy and precision overall and were tied for first place in accuracy, whereas a pruned decision tree is in third place. Because of the categorical nature of the data in the car data set, it makes sense that decision trees (both boosted and not) would be good choices for this data. Neural networks, in addition, generally fit well to both numerical and categorical data over sufficient iterations, so it isn't surprising that a neural network would be a strong contender for a classifier.
+
+    Depending on the application, any three of these classifiers may be a good fit for the car data set:
+
+    \begin{itemize}
+        \item \textbf{Decision Tree:} The relatively high accuracy of this classifier, combined with its record-low fit and prediction runtimes of the group, makes a strong contender in applications where models must be fit on the fly.
+        \item \textbf{Neural Net:} Neural networks have higher accuracy than a boosted decision tree and just as fast of prediction times. However, the fit time for the model is much higher. Neural networks would be suitable for cases in which a model is only occasionally re-fit, the highest accuracy is desired, and prediction time needs to be low.
+        \item \textbf{Boosting:} Boosting provides higher accuracy than a standard pruned decision tree, but with the expense of a much longer fit time. Boosting would make a good choice for a classifier in which higher accuracy is needed and time can be spared in prediction, but when a neural network's long fit time would be restrictive.
+    \end{itemize}
+
+    \subsection{Breast cancer data set}
+
+    \begin{table}[h!]
+    \centering
+    \begin{tabular}{||l c c c c c||} 
+     \hline
+     \textbf{Classifier} & Training F1 & Fit Time & Prediction Time & Accuracy & Precision \\
+     \hline
+     \textbf{Decision Tree (pruned)} & 96.60\% & 2.95ms & 0.48ms & 94.29\% & 94.26\% \\ 
+     \textbf{Boosting} & 100\% & 0.21s & 20.79ms & 97.14\% & 97.15\% \\
+     \textbf{$k$-nearest Neighbors} & 97.32\% & 2.17ms & 5.33ms & 98.57\% & 98.57\% \\
+     \textbf{SVM} & 96.96\% & 6.25ms & 0.57ms & 96.43\% & 96.47\% \\
+     \textbf{Neural Net} & 96.96\% & 1.46s & 0.64ms & 94.29\% & 94.47\% \\
+     \hline
+    \end{tabular}
+    \caption{Statistics for tuned classifiers, breastcancer.dataset}
+    \label{tab:breastcancer-stats}
+    \end{table}
+
+    In \Fref{tab:breastcancer-stats}, we can see that the most accurate classifiers for the breast cancer data set were $k$-nearest neighbors in first place, followed by boosting in second place, and a support vector machine with a linear kernel in third. The data in this data set was continuous, which meant different algorithms performed better on the breast cancer data than they did on the car data.
+
+    In particular, $k$-nearest neighbors peformed the best overall in accuracy, precision, and fit and prediction times. Thus, $k$-nearest neighbors is indisputably the best classifier for use on the breast cancer data set with $k=5$. This also suggests that the breast cancer data, being numerical in nature, has a class boundary that $k$-nearest neighbors was able to easily and quickly detect.
 
     \section{Conclusion}
-    TODO
+    In this report, I have presented two data sets and underlying classification problems. Five different supervised learning algorithms were thoroughly tuned and tested to evaluate and select the best classifier for each data set. This exploratory analysis is by no means complete -- other parameters may be tuned to perhaps make SVM with an RBF kernel more performant for the car data set, or etc. However, with the sane defaults that scikit-learn provided and the number of algorithms tested, these algorithms were sufficient for wall clock time comparison as well as accuracy comparison.
 
 \end{document}
