@@ -311,7 +311,7 @@
     Finally, we evaluate scikit-learn's built in multi-layer perceptron neural network algorithm for classifying our two data sets.
 
     \subsection{Solver selection}
-    Because neural network generation is computationally intensive, parameter selection for the neural network algorithm was restricted to selecting the best solver for weight optimization. The three options that scikit-learn provides are the `adam' solver, the `sgd' (or stochastic gradient descent) solver, and the `lbfgs' solver. Neural networks were allowed 1,000 total iterations each to ensure the highest possibility of convergence.
+    Because neural network generation is computationally intensive, parameter selection for the neural network algorithm was restricted to selecting the best solver for weight optimization. The three options that scikit-learn provides are the `adam' solver, the `sgd' (or stochastic gradient descent) solver, and the `lbfgs' solver. Neural networks were allowed 1,000 total iterations each to ensure the highest possibility of convergence without compromising in too much compute time.
 
     The learning curves used for this evaluation can be found in \Fref{fig:nn-param}.
 
@@ -363,7 +363,13 @@
     Note that stochastic gradient descent is heavily tunable via hyperparameters, however in the interest of time, the defaults were used in all cases to get a good overview of algorithmic performance out of the box.
 
     \subsection{Performance}
-    TODO
+    Neural networks can be extremely accurate, but often at the cost of model fitting time. This was very evident with neural networks in this analysis.
+
+    The car data set's model was built in 2.33 seconds of wall clock time, which is much longer than any of the other algorithms discussed in this report. However, prediction runtime for the `adam'-solved neural network were relatively low, at 1.68ms for a single prediction. The neural network's testing F1 score was 97.69\%, indicating extremely good accuracy on unseen data.
+
+    The breast cancer data set's neural network, generated with the `sgd' solver, fared well, but not as well as the car data's neural network. The testing F1 score of the breast cancer neural network was 94.29\%, which still indicates good accuracy on unseen data. However, like the car data set, the breast cancer data set took much longer to fit, taking 1.46 seconds to build the network. This network did result in a quick prediction runtime of 0.64ms.
+
+    Due to the accuracy bump that the breast cancer data suffered compared to other algorithms, the data suggests that a neural network may not be most appropriate for the cancer data in the default configuration. However, if model fit time is not an issue for the particular application, a neural network may be a good fit for the car evaluation data set.
 
     \section{Analysis}
     TODO
