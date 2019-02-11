@@ -28,7 +28,7 @@
     \maketitle
 
     \section{Introduction}
-    The purpose of this assignment is to evaluate various supervised learning techniques in the context of two classification algorithms. We will focus on analyzing and adjusting five learning algorithms using two publically-available data sets, through cross-validation and hyperparameter adjustments. Then, we can use our adjusted models to compare supervised learning techniques in the context of each of our classification algorithms.
+    The purpose of this assignment is to evaluate various supervised learning techniques in the context of two classification algorithms. We will focus on analyzing and adjusting five learning algorithms using two publically available data sets, through cross-validation and hyper parameter adjustments. Then, we can use our adjusted models to compare supervised learning techniques in the context of each of our classification algorithms.
 
     \subsection{Collaboration disclosure}
     I collaborated on planning and tuning the programming portion of this assignment with Nikolai Vorobiev in order to produce a code-base capable of using scikit-learn to effectively evaluate the given data sets. Though the code we used to run analysis on the algorithms is the same, this analysis is wholly my own.
@@ -41,7 +41,7 @@
     \subsection{Car data set}
     The Car Evaluation Database was created in June, 1997 by Marko Bohanec. It contains 1728 instances and six attributes. The purpose of this database is to attempt to classify a car as an unacceptable, acceptable, good, or very good choice based on factors including cost of ownership, comfort, and safety. Full details about the data set can be found at the source link below.
 
-    The problem at hand for this dataset is determining the acceptability for a car purchase based on the aforementioned attributes. Because this dataset notes that the instances in the data set completely cover the attribute space, this data set is interesting in particular due to its usefulness in comparing the optimization of different supervised learning algorithms. Note that this specific data set contains only categorical attributes. As scikit-learn does not support non-continuous variables, a one-hot encoder was used to re-encode categorical features into multiple dimensions.
+    The problem at hand for this data set is determining the acceptability for a car purchase based on the aforementioned attributes. Because this data set notes that the instances in the data set completely cover the attribute space, this data set is interesting in particular due to its usefulness in comparing the optimization of different supervised learning algorithms. Note that this specific data set contains only categorical attributes. As scikit-learn does not support non-continuous variables, a one-hot encoder was used to re-encode categorical features into multiple dimensions.
 
     \textbf{Source:} https://archive.ics.uci.edu/ml/datasets/car+evaluation
 
@@ -50,25 +50,25 @@
 
     This data set contains unknowns in the form of question marks in the data. To deal with this, missing values were imputed, calculating missing data points based on the mean of other points in the specific column of the missing attribute. 
 
-    The problem at hand for this dataset is determining whether a tumor is benign or malignant based on tumor screening characteristics identified in the data set.
+    The problem at hand for this data set is determining whether a tumor is benign or malignant based on tumor screening characteristics identified in the data set.
 
     \textbf{Source:} https://archive.ics.uci.edu/ml/datasets/Breast+Cancer+Wisconsin+\%28Original\%29
 
     \section{Decision trees with pruning}
 
     \subsection{Parameter selection}
-    To begin evaluating the decision tree algorithm, hyperparameter selection was essential to tuning the algorithms to each data set. Both the car and cancer datasets were evaluated with the GINI index criterion as well as the entropy criterion. The two criterion had no discernible differences in training results, so as a result, GINI was selected for the decision tree classifier on both sets, as it allows us to avoid a logarithmic calculation, saving compute time.
+    To begin evaluating the decision tree algorithm, hyper parameter selection was essential to tuning the algorithms to each data set. Both the car and cancer data sets were evaluated with the GINI index criterion as well as the entropy criterion. The two criterion had no discernible differences in training results, so as a result, GINI was selected for the decision tree classifier on both sets, as it allows us to avoid a logarithmic calculation, saving compute time.
 
     The next parameters that needed tuning were the pruning parameters included in the scikit-learn decision tree classifier. Namely, the max depth of the tree, as well as the minimum samples per leaf, were tuned to fit each data set.
 
-    For the car data set, parameter selection showed that a lower-depth tree had much lower accuracy, likely due to the fact that the dataset had instances covering the entire attribute space. As a result, a max depth of 9 nodes was selected for the car data set, with a minimum number of 5 samples occurring at each leaf node to minimize the amount of information loss.
+    For the car data set, parameter selection showed that a lower-depth tree had much lower accuracy, likely due to the fact that the data set had instances covering the entire attribute space. As a result, a max depth of 9 nodes was selected for the car data set, with a minimum number of 5 samples occurring at each leaf node to minimize the amount of information loss.
 
     The cancer data set, on the other hand, responded much better to more aggressive pruning. The pruned decision tree classifier responded to the data with the best F1 score with a max depth of 5 nodes, and a minimum number of 10 samples occurring at each leaf.
 
     \subsection{Performance}
     Performance of the tuned classifier for each data set was measured with both wall clock time for fitting the model with the training data, as well as making a prediction with the test data. For the breast cancer data set, pruning resulted in both higher precision and accuracy, with a performance gain during prediction over a non-pruned decision tree (from 0.801ms to 0.479ms). However, the classifier took 0.57ms longer to train with pruning enabled (no pruning: 2.38ms, pruning: 2.95ms). For this data set, with the determined parameters was successful.
 
-    However, the car data set showed different results with pruning enabled. There was no significant change in either the precision or accuracy measures. The car data set's decision tree classifier took 11.51ms to fit without pruning, however with pruning this was reduced to 7.35ms with pruning. Prediction runtime for the pruned tree was only slightly longer than the unpruned tree. Due to the completeness of the data, pruning is likely not necessary for this dataset without further tuning.
+    However, the car data set showed different results with pruning enabled. There was no significant change in either the precision or accuracy measures. The car data set's decision tree classifier took 11.51ms to fit without pruning, however with pruning this was reduced to 7.35ms with pruning. Prediction runtime for the pruned tree was only slightly longer than the unpruned tree. Due to the completeness of the data, pruning is likely not necessary for this data set without further tuning.
 
     Learning curves for the data sets, with and without pruning enabled, can be found in \Fref{fig:dt-learning}.
 
@@ -227,7 +227,7 @@
     \subsection{Performance}
     The $k$-nearest neighbors algorithm performed better for the breast cancer data set than the car data set with optimized values of $k$. This is likely due to the fact that the breast cancer data contains only continuous attributes, while the car data set contains only nominal data. The testing F1 scores for the cancer and car data sets using this algorithm were 98.57\% and 91.91\% respectively.
 
-    In terms of wall clock performance, $k$-nearest neighbors was resonably fast to fit the classifier to both sets, doing so in 4.97ms for the car data set and 2.17ms for the cancer data set. However, prediction time for the car data set was significantly slower than other algorithms at 23.84ms, whereas the cancer data set also had a relatively slow prediction runtime of 5.33ms.
+    In terms of wall clock performance, $k$-nearest neighbors was reasonably fast to fit the classifier to both sets, doing so in 4.97ms for the car data set and 2.17ms for the cancer data set. However, prediction time for the car data set was significantly slower than other algorithms at 23.84ms, whereas the cancer data set also had a relatively slow prediction runtime of 5.33ms.
 
     \Fref{fig:knn-learning} shows the learning curves for the two data sets using $k$-nearest neighbors with optimized $k$.
 
@@ -303,9 +303,9 @@
     \end{figure}
 
     \subsection{Performance}
-    The support vector machine for the cancer data set performed well with the linear kernel. Wall clock time to fit the classifier was only 6.25ms, with a tested prediction runtime of 0.57ms. The F1 score reported for the test data was 96.43\%, indicating good accurary for the model.
+    The support vector machine for the cancer data set performed well with the linear kernel. Wall clock time to fit the classifier was only 6.25ms, with a tested prediction runtime of 0.57ms. The F1 score reported for the test data was 96.43\%, indicating good accuracy for the model.
 
-    On the other hand, the SVM trained with the car data set and the linear kernel had good, but not excellent results in terms of both accurary and wall clock time. The test F1 score was 93.06\%, however the model took 40.81ms to fit, with a less-than-impressive prediction runtime of 6.76ms. In terms of accuracy, the car data set performed well with a linear kernel, however the wall clock time for using SVM for this data set leaves this algorithm as a less-than-desirable choice for real-world use.
+    On the other hand, the SVM trained with the car data set and the linear kernel had good, but not excellent results in terms of both accuracy and wall clock time. The test F1 score was 93.06\%, however the model took 40.81ms to fit, with a less-than-impressive prediction runtime of 6.76ms. In terms of accuracy, the car data set performed well with a linear kernel, however the wall clock time for using SVM for this data set leaves this algorithm as a less-than-desirable choice for real-world use.
 
     \section{Neural networks}
     Finally, we evaluate scikit-learn's built in multi-layer perceptron neural network algorithm for classifying our two data sets.
@@ -358,9 +358,9 @@
 
     Cursory analysis of the learning curves for the different solvers shows that, for the car data set, the `adam' and `lbfgs' solvers perform very well with default parameters. On a single run, `lbfgs' performed better than the `adam' solver, however, due to the lower variance in cross-validation score of the `adam' solver, we'll further discuss this implementation using only the `adam' solver.
 
-    The breast cancer data set, however, showed the best accurary and lowest variance cross-validation score when using the `sgd' solver. Thus, further analysis will occur using the `sgd' solver on the breast cancer data set.
+    The breast cancer data set, however, showed the best accuracy and lowest variance cross-validation score when using the `sgd' solver. Thus, further analysis will occur using the `sgd' solver on the breast cancer data set.
 
-    Note that stochastic gradient descent is heavily tunable via hyperparameters, however in the interest of time, the defaults were used in all cases to get a good overview of algorithmic performance out of the box.
+    Note that stochastic gradient descent is heavily tunable via hyper parameters, however in the interest of time, the defaults were used in all cases to get a good overview of algorithmic performance out of the box.
 
     \subsection{Performance}
     Neural networks can be extremely accurate, but often at the cost of model fitting time. This was very evident with neural networks in this analysis.
@@ -372,7 +372,7 @@
     Due to the accuracy bump that the breast cancer data suffered compared to other algorithms, the data suggests that a neural network may not be most appropriate for the cancer data in the default configuration. However, if model fit time is not an issue for the particular application, a neural network may be a good fit for the car evaluation data set.
 
     \section{Discussion}
-    So far, we've individually evaluated the performance of five different supervised learning algorithms in the context of two classification problems. In this section, I intend to compare the merits of each tuned classifier thus far with regards to each data set, to determine which algorithm is the best fit for classification in a real-world application.
+    So far, we've individually evaluated the performance of five different supervised learning algorithms in the context of two classification problems. In this section, I intend to compare the merits of each tuned classifier thus far with regard to each data set, to determine which algorithm is the best fit for classification in a real-world application.
 
     \subsection{Car data set}
 
@@ -424,7 +424,7 @@
 
     In \Fref{tab:breastcancer-stats}, we can see that the most accurate classifiers for the breast cancer data set were $k$-nearest neighbors in first place, followed by boosting in second place, and a support vector machine with a linear kernel in third. The data in this data set was continuous, which meant different algorithms performed better on the breast cancer data than they did on the car data.
 
-    In particular, $k$-nearest neighbors peformed the best overall in accuracy, precision, and fit and prediction times. Thus, $k$-nearest neighbors is indisputably the best classifier for use on the breast cancer data set with $k=5$. This also suggests that the breast cancer data, being numerical in nature, has a class boundary that $k$-nearest neighbors was able to easily and quickly detect.
+    In particular, $k$-nearest neighbors performed the best overall in accuracy, precision, and fit and prediction times. Thus, $k$-nearest neighbors is indisputably the best classifier for use on the breast cancer data set with $k=5$. This also suggests that the breast cancer data, being numerical in nature, has a class boundary that $k$-nearest neighbors was able to easily and quickly detect.
 
     \section{Conclusion}
     In this report, I have presented two data sets and underlying classification problems. Five different supervised learning algorithms were thoroughly tuned and tested to evaluate and select the best classifier for each data set. This exploratory analysis is by no means complete -- other parameters may be tuned to perhaps make SVM with an RBF kernel more performant for the car data set, or etc. However, with the sane defaults that scikit-learn provided and the number of algorithms tested, these algorithms were sufficient for wall clock time comparison as well as accuracy comparison.
