@@ -308,6 +308,61 @@
     On the other hand, the SVM trained with the car data set and the linear kernel had good, but not excellent results in terms of both accurary and wall clock time. The test F1 score was 93.06\%, however the model took 40.81ms to fit, with a less-than-impressive prediction runtime of 6.76ms. In terms of accuracy, the car data set performed well with a linear kernel, however the wall clock time for using SVM for this data set leaves this algorithm as a less-than-desirable choice for real-world use.
 
     \section{Neural networks}
+    Finally, we evaluate scikit-learn's built in multi-layer perceptron neural network algorithm for classifying our two data sets.
+
+    \subsection{Solver selection}
+    Because neural network generation is computationally intensive, parameter selection for the neural network algorithm was restricted to selecting the best solver for weight optimization. The three options that scikit-learn provides are the `adam' solver, the `sgd' (or stochastic gradient descent) solver, and the `lbfgs' solver. Neural networks were allowed 1,000 total iterations each to ensure the highest possibility of convergence.
+
+    The learning curves used for this evaluation can be found in \Fref{fig:nn-param}.
+
+    \begin{figure}[htb]
+    \centering
+
+    \begin{subfigure}{0.33\textwidth}
+      \includegraphics[width=\linewidth]{out/neural_net/car-solver-adam.png}
+      \caption{Car data, adam solver}
+      \label{fig:nn-param-1}
+    \end{subfigure}\hfil
+    \begin{subfigure}{0.33\textwidth}
+      \includegraphics[width=\linewidth]{out/neural_net/car-solver-sgd.png}
+      \caption{Car data, sgd solver}
+      \label{fig:nn-param-2}
+    \end{subfigure}\hfil
+    \begin{subfigure}{0.33\textwidth}
+      \includegraphics[width=\linewidth]{out/neural_net/car-solver-lbfgs.png}
+      \caption{Car data, lbfgs solver}
+      \label{fig:nn-param-3}
+    \end{subfigure}
+
+    \medskip
+
+    \begin{subfigure}{0.33\textwidth}
+      \includegraphics[width=\linewidth]{out/neural_net/breastcancer-solver-adam.png}
+      \caption{Breast cancer, adam solver}
+      \label{fig:nn-param-4}
+    \end{subfigure}\hfil
+    \begin{subfigure}{0.33\textwidth}
+      \includegraphics[width=\linewidth]{out/neural_net/breastcancer-solver-sgd.png}
+      \caption{Breast cancer, sgd solver}
+      \label{fig:nn-param-5}
+    \end{subfigure}\hfil
+    \begin{subfigure}{0.33\textwidth}
+      \includegraphics[width=\linewidth]{out/neural_net/breastcancer-solver-lbfgs.png}
+      \caption{Breast cancer, lbfgs solver}
+      \label{fig:nn-param-6}
+    \end{subfigure}
+
+    \caption{Learning curves for the car and breast cancer data sets using a MLP neural network, with adam, sgd, and lbfgs solvers.}
+    \label{fig:nn-param}
+    \end{figure}
+
+    Cursory analysis of the learning curves for the different solvers shows that, for the car data set, the `adam' and `lbfgs' solvers perform very well with default parameters. On a single run, `lbfgs' performed better than the `adam' solver, however, due to the lower variance in cross-validation score of the `adam' solver, we'll further discuss this implementation using only the `adam' solver.
+
+    The breast cancer data set, however, showed the best accurary and lowest variance cross-validation score when using the `sgd' solver. Thus, further analysis will occur using the `sgd' solver on the breast cancer data set.
+
+    Note that stochastic gradient descent is heavily tunable via hyperparameters, however in the interest of time, the defaults were used in all cases to get a good overview of algorithmic performance out of the box.
+
+    \subsection{Performance}
     TODO
 
     \section{Analysis}
