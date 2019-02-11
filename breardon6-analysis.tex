@@ -198,58 +198,6 @@
 
     Therefore, boosting does increase the accuracy and precision for both models, however at the cost of slowing down fit and classification times across the board. This tradeoff will be discussed further in a later section.
 
-    \section{Neural networks}
-    TODO
-
-    \section{Support vector machines}
-    
-
-    \subsection{Performance}
-    Learning curves for the car and breast cancer data sets can be found in \Fref{fig:svm-learning}.
-
-    TODO kernel params?
-
-    \begin{figure}[htb]
-    \centering
-
-    \begin{subfigure}{0.33\textwidth}
-      \includegraphics[width=\linewidth]{out/svm/car-kernel-linear.png}
-      \caption{Car data, linear kernel}
-      \label{fig:svm-learning-1}
-    \end{subfigure}\hfil
-    \begin{subfigure}{0.33\textwidth}
-      \includegraphics[width=\linewidth]{out/svm/car-kernel-rbf.png}
-      \caption{Car data, RBF kernel}
-      \label{fig:svm-learning-2}
-    \end{subfigure}\hfil
-    \begin{subfigure}{0.33\textwidth}
-      \includegraphics[width=\linewidth]{out/svm/car-kernel-poly.png}
-      \caption{Car data, poly kernel}
-      \label{fig:svm-learning-3}
-    \end{subfigure}
-
-    \medskip
-
-    \begin{subfigure}{0.33\textwidth}
-      \includegraphics[width=\linewidth]{out/svm/breastcancer-kernel-linear.png}
-      \caption{Breast cancer, linear kernel}
-      \label{fig:svm-learning-4}
-    \end{subfigure}\hfil
-    \begin{subfigure}{0.33\textwidth}
-      \includegraphics[width=\linewidth]{out/svm/breastcancer-kernel-rbf.png}
-      \caption{Breast cancer, RBF kernel}
-      \label{fig:svm-learning-5}
-    \end{subfigure}\hfil
-    \begin{subfigure}{0.33\textwidth}
-      \includegraphics[width=\linewidth]{out/svm/breastcancer-kernel-poly.png}
-      \caption{Breast cancer, poly kernel}
-      \label{fig:svm-learning-6}
-    \end{subfigure}
-
-    \caption{Learning curves for the car and breast cancer data sets using an SVM classifier, with linear, RBF, and poly kernels.}
-    \label{fig:svm-learning}
-    \end{figure}
-
     \section{$k$-nearest neighbors}
     Next, the $k$-nearest neighbors algorithm was tuned and evaluated for performance on the two data sets.
 
@@ -301,6 +249,67 @@
     \label{fig:knn-learning}
     \end{figure}
 
+    \section{Support vector machines}
+    Support vector machines (SVMs) are the next algorithm that will be evaluated. The car and cancer data sets were both evaluated using the linear, RBF, and polynomial kernels included in scikit-learn. For the sake of brevity, the three algorithms were evaluated with otherwise default kernel parameters.
+
+    \subsection{Kernel selection}
+    Kernel selection is important for ensuring that the support vector machine is able to find the shape of the feature boundary within the attribute space. To evaluate the merits of the linear, RBF, and polynomial kernels, a learning curve was generated for each data set with each of the three kernels.
+
+    It is immediately obvious that the polynomial kernel does not sufficiently classify the data for the car data set. This, along with the RBF kernel's reduced performance on the car data set with respect to the linear kernel, suggests that the car data set is linearly separable. Thus, the ideal kernel for the car data set is chosen to be the linear kernel.
+
+    However, for the cancer data set, all three kernels report decent scores. The linear kernel again performs best, though the RBF kernel is close behind. The polynomial kernel also has above-90\% cross-validation score. These results suggest that, with sufficient kernel parameter tuning, a SVM trained on the cancer data set may have better accuracy than the linear kernel than with the RBF or polynomial kernels. However, for the purpose of the assignment, we select the linear kernel for use with the cancer data as well.
+
+    The learning curves used for this evaluation can be found in \Fref{fig:svm-learning}.
+
+    \begin{figure}[htb]
+    \centering
+
+    \begin{subfigure}{0.33\textwidth}
+      \includegraphics[width=\linewidth]{out/svm/car-kernel-linear.png}
+      \caption{Car data, linear kernel}
+      \label{fig:svm-learning-1}
+    \end{subfigure}\hfil
+    \begin{subfigure}{0.33\textwidth}
+      \includegraphics[width=\linewidth]{out/svm/car-kernel-rbf.png}
+      \caption{Car data, RBF kernel}
+      \label{fig:svm-learning-2}
+    \end{subfigure}\hfil
+    \begin{subfigure}{0.33\textwidth}
+      \includegraphics[width=\linewidth]{out/svm/car-kernel-poly.png}
+      \caption{Car data, poly kernel}
+      \label{fig:svm-learning-3}
+    \end{subfigure}
+
+    \medskip
+
+    \begin{subfigure}{0.33\textwidth}
+      \includegraphics[width=\linewidth]{out/svm/breastcancer-kernel-linear.png}
+      \caption{Breast cancer, linear kernel}
+      \label{fig:svm-learning-4}
+    \end{subfigure}\hfil
+    \begin{subfigure}{0.33\textwidth}
+      \includegraphics[width=\linewidth]{out/svm/breastcancer-kernel-rbf.png}
+      \caption{Breast cancer, RBF kernel}
+      \label{fig:svm-learning-5}
+    \end{subfigure}\hfil
+    \begin{subfigure}{0.33\textwidth}
+      \includegraphics[width=\linewidth]{out/svm/breastcancer-kernel-poly.png}
+      \caption{Breast cancer, poly kernel}
+      \label{fig:svm-learning-6}
+    \end{subfigure}
+
+    \caption{Learning curves for the car and breast cancer data sets using an SVM classifier, with linear, RBF, and poly kernels.}
+    \label{fig:svm-learning}
+    \end{figure}
+
+    \subsection{Performance}
+    The support vector machine for the cancer data set performed well with the linear kernel. Wall clock time to fit the classifier was only 6.25ms, with a tested prediction runtime of 0.57ms. The F1 score reported for the test data was 96.43\%, indicating good accurary for the model.
+
+    On the other hand, the SVM trained with the car data set and the linear kernel had good, but not excellent results in terms of both accurary and wall clock time. The test F1 score was 93.06\%, however the model took 40.81ms to fit, with a less-than-impressive prediction runtime of 6.76ms. In terms of accuracy, the car data set performed well with a linear kernel, however the wall clock time for using SVM for this data set leaves this algorithm as a less-than-desirable choice for real-world use.
+
+    \section{Neural networks}
+    TODO
+
     \section{Analysis}
     TODO
 
@@ -309,4 +318,5 @@
 
     \section{Conclusion}
     TODO
+
 \end{document}
