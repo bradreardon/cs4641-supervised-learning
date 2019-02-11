@@ -66,9 +66,9 @@
     The cancer data set, on the other hand, responded much better to more aggressive pruning. The pruned decision tree classifier responded to the data with the best F1 score with a max depth of 5 nodes, and a minimum number of 10 samples occurring at each leaf.
 
     \subsection{Performance}
-    Performance of the tuned classifier for each data set was measured with both wall clock time for fitting the model with the training data, as well as making a prediction with the test data. For the breast cancer data set, pruning resulted in both higher precision and accuracy, with a performance gain during prediction over a non-pruned decision tree (from 0.801ms to 0.479ms). However, the classifier took 0.57 seconds longer to train with pruning enabled (no pruning: 2.38s, pruning: 2.95s). For this data set, with the determined parameters was successful.
+    Performance of the tuned classifier for each data set was measured with both wall clock time for fitting the model with the training data, as well as making a prediction with the test data. For the breast cancer data set, pruning resulted in both higher precision and accuracy, with a performance gain during prediction over a non-pruned decision tree (from 0.801ms to 0.479ms). However, the classifier took 0.57ms longer to train with pruning enabled (no pruning: 2.38ms, pruning: 2.95ms). For this data set, with the determined parameters was successful.
 
-    However, the car data set showed different results with pruning enabled. There was no significant change in either the precision or accuracy measures. The car data set's decision tree classifier took 11.51 seconds to fit without pruning, however with pruning this was reduced to 7.35s with pruning. Prediction runtime for the pruned tree was only slightly longer than the unpruned tree. Due to the completeness of the data, pruning is likely not necessary for this dataset without further tuning.
+    However, the car data set showed different results with pruning enabled. There was no significant change in either the precision or accuracy measures. The car data set's decision tree classifier took 11.51ms to fit without pruning, however with pruning this was reduced to 7.35ms with pruning. Prediction runtime for the pruned tree was only slightly longer than the unpruned tree. Due to the completeness of the data, pruning is likely not necessary for this dataset without further tuning.
 
     Learning curves for the data sets, with and without pruning enabled, can be found in \Fref{fig:dt-learning}.
 
@@ -196,7 +196,7 @@
 
     However, this increase in accuracy and precision for both data sets does come at the cost of extra wall clock time during both the fit and predict phases of testing. Due to the nature of the AdaBoost algorithm, fit and prediction times increase with some linearity to the number of estimators used to fit the classifier. This increase in time represented approximate 70-fold and 61-fold increases in fit times for the cancer and car data sets respectively. Similar slow downs resulted in prediction using the boosting algorithm over a standard pruned decision tree.
 
-    Therefore, boosting does increase the accuracy and precision for both models, however at the cost of slowing down fit and classification times across the board.
+    Therefore, boosting does increase the accuracy and precision for both models, however at the cost of slowing down fit and classification times across the board. This tradeoff will be discussed further in a later section.
 
     \section{Neural networks}
     TODO
@@ -205,7 +205,6 @@
     
 
     \subsection{Performance}
-
     Learning curves for the car and breast cancer data sets can be found in \Fref{fig:svm-learning}.
 
     TODO kernel params?
@@ -252,15 +251,10 @@
     \end{figure}
 
     \section{$k$-nearest neighbors}
-    TODO
+    Next, the $k$-nearest neighbors algorithm was tuned and evaluated for performance on the two data sets.
 
     \subsection{Parameter selection}
-    car k=11
-    cancer k=5
-
-    Lowest k with highest cross-validation
-
-    TODO \Fref{fig:knn-param}
+    The main parameter adjustment for the $k$-nearest neighbors algorithm was setting a sensible value for $k$ such that cross-validation score is maximized. \Fref{fig:knn-param} shows the performance of the algorithm for each data set, with different values of $k$.
 
     \begin{figure}[htb]
     \centering
@@ -280,9 +274,14 @@
     \label{fig:knn-param}
     \end{figure}
 
-    \subsection{Performance}
+    Cross-validation scores were best for the car data set with a value of $k=11$, whereas the cancer data performed best with $k=5$. Therefore, these values were selected as the optimal parameters of the data sets.
 
-    TODO \Fref{fig:knn-learning}
+    \subsection{Performance}
+    The $k$-nearest neighbors algorithm performed better for the breast cancer data set than the car data set with optimized values of $k$. This is likely due to the fact that the breast cancer data contains only continuous attributes, while the car data set contains only nominal data. The testing F1 scores for the cancer and car data sets using this algorithm were 98.57\% and 91.91\% respectively.
+
+    In terms of wall clock performance, $k$-nearest neighbors was resonably fast to fit the classifier to both sets, doing so in 4.97ms for the car data set and 2.17ms for the cancer data set. However, prediction time for the car data set was significantly slower than other algorithms at 23.84ms, whereas the cancer data set also had a relatively slow prediction runtime of 5.33ms.
+
+    \Fref{fig:knn-learning} shows the learning curves for the two data sets using $k$-nearest neighbors with optimized $k$.
 
     \begin{figure}[htb]
     \centering

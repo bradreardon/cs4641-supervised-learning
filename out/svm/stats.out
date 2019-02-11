@@ -2,16 +2,16 @@ svm, kernel: linear
 car.dataset (kernel=linear)
 training f1 score: 0.9464544138929089
 test f1 score: 0.930635838150289
-time to fit: 40.71998596191406
-test prediction runtime: 6.712913513183594
+time to fit: 40.80796241760254
+test prediction runtime: 6.762981414794922
 test accuracy 93.0635838150289
 test precision 94.12385835428843
 
 breastcancer.dataset (kernel=linear)
 training f1 score: 0.9695885509838998
 test f1 score: 0.9642857142857143
-time to fit: 7.815837860107422
-test prediction runtime: 0.5781650543212891
+time to fit: 6.247997283935547
+test prediction runtime: 0.5731582641601562
 test accuracy 96.42857142857143
 test precision 96.46501457725947
 
@@ -19,16 +19,16 @@ svm, kernel: rbf
 car.dataset (kernel=rbf)
 training f1 score: 0.9377713458755427
 test f1 score: 0.9219653179190751
-time to fit: 64.60285186767578
-test prediction runtime: 10.875225067138672
+time to fit: 63.330888748168945
+test prediction runtime: 11.192083358764648
 test accuracy 92.1965317919075
 test precision 92.61696932952985
 
 breastcancer.dataset (kernel=rbf)
 training f1 score: 0.998211091234347
 test f1 score: 0.9500000000000001
-time to fit: 6.959199905395508
-test prediction runtime: 1.2018680572509766
+time to fit: 6.540060043334961
+test prediction runtime: 1.1930465698242188
 test accuracy 95.0
 test precision 95.38888888888889
 
@@ -36,16 +36,16 @@ svm, kernel: poly
 car.dataset (kernel=poly)
 training f1 score: 0.7054992764109985
 test f1 score: 0.6791907514450867
-time to fit: 78.16004753112793
-test prediction runtime: 12.51673698425293
+time to fit: 73.09198379516602
+test prediction runtime: 13.544797897338867
 test accuracy 67.91907514450867
 test precision 46.13000768485415
 
 breastcancer.dataset (kernel=poly)
 training f1 score: 0.998211091234347
 test f1 score: 0.9
-time to fit: 59.378862380981445
-test prediction runtime: 0.9348392486572266
+time to fit: 58.44998359680176
+test prediction runtime: 0.7266998291015625
 test accuracy 90.0
 test precision 90.14694305956442
 
