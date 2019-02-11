@@ -1,0 +1,49 @@
+neural_net
+breastcancer.dataset (solver=adam)
+training f1 score: 0.9964221824686941
+test f1 score: 0.9571428571428572
+time to fit: 1577.2275924682617
+test prediction runtime: 0.7002353668212891
+test accuracy 95.71428571428572
+test precision 95.78889944743604
+
+car.dataset (solver=adam)
+training f1 score: 1.0
+test f1 score: 0.976878612716763
+time to fit: 2327.544689178467
+test prediction runtime: 1.6841888427734375
+test accuracy 97.6878612716763
+test precision 98.12180796508922
+
+breastcancer.dataset (solver=sgd)
+training f1 score: 0.9695885509838998
+test f1 score: 0.9428571428571428
+time to fit: 1464.9736881256104
+test prediction runtime: 0.6368160247802734
+test accuracy 94.28571428571428
+test precision 94.47285387879447
+
+car.dataset (solver=sgd)
+training f1 score: 0.9623733719247467
+test f1 score: 0.9393063583815029
+time to fit: 7659.95717048645
+test prediction runtime: 1.7230510711669922
+test accuracy 93.9306358381503
+test precision 94.07545476446235
+
+breastcancer.dataset (solver=lbfgs)
+training f1 score: 1.0
+test f1 score: 0.9357142857142857
+time to fit: 162.5528335571289
+test prediction runtime: 0.6558895111083984
+test accuracy 93.57142857142857
+test precision 93.54956268221575
+
+car.dataset (solver=lbfgs)
+training f1 score: 1.0
+test f1 score: 0.9884393063583815
+time to fit: 142.5027847290039
+test prediction runtime: 2.012968063354492
+test accuracy 98.84393063583815
+test precision 98.8657571134218
+
